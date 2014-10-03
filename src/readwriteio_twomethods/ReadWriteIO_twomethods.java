@@ -88,8 +88,9 @@ public class ReadWriteIO_twomethods {
                                         in the parentheses of the method call
                                         strToWrite is called an "argument" - a variable that is an input to a method
                                         */
-                    writeToFile(strToWrite);
+                    boolean answer = writeToFile(strToWrite);
                     
+                    System.out.println("The error is " +answer);
                     
                     BufferedReader inputBuff = new BufferedReader
                                         (new FileReader("outfile.txt"));
@@ -156,11 +157,19 @@ public class ReadWriteIO_twomethods {
         whereas "arguments" are inputs sent to a method
         
         */
-    public static void writeToFile (String strToWrite)  throws IOException{
-        
-        BufferedWriter outputBuff = new BufferedWriter(
+    public static boolean writeToFile (String strToWrite)  throws IOException{
+        boolean writeStatus = false;
+        try {
+            BufferedWriter outputBuff = new BufferedWriter(
                                         new FileWriter("outfile.txt", true));
-        outputBuff.write(strToWrite);
-        outputBuff.flush();
+            outputBuff.write(strToWrite);
+            outputBuff.flush();
+        }
+        catch(IOException ioe2){
+            writeStatus = false;
+            System.err.println("IO exception occurred while trying to write to file ");
+        }
+        
+        return writeStatus;
     }
 }
